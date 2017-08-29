@@ -114,5 +114,39 @@ namespace alfrek.api.Controllers
                 }
             }
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] EditSolutionResource s)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                var solution = await _context.Solutions.FindAsync(id);
+                if (solution != null)
+                {
+                    solution.Title = s.Title;
+                    solution.ByLine = s.ByLine;
+                    solution.ProblemBody = s.ProblemBody;
+                    solution.SolutionBody = solution.SolutionBody;
+                    try
+                    {
+                        _context.Update(solution);
+                        _context.SaveChanges();
+                        return Ok(solution);
+                    }
+                    catch (Exception e)
+                    {
+                        return StatusCode(500);
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+        }
     }
 }
