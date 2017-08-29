@@ -144,7 +144,7 @@ namespace alfrek.api.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    return NotFound("No solution found");
                 }
             }
         }
