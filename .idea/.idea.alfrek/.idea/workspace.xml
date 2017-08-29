@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="66193a0c-138b-41a7-a89b-d39341516817" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/alfrek.api/Controllers/Resources/Input/EditSolutionResource.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.alfrek/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.alfrek/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/alfrek.api/Controllers/SolutionsController.cs" afterPath="$PROJECT_DIR$/alfrek.api/Controllers/SolutionsController.cs" />
     </list>
@@ -34,49 +33,41 @@
       <file leaf-file-name="SolutionsController.cs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/alfrek.api/Controllers/SolutionsController.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="717">
-              <caret line="148" column="13" lean-forward="true" selection-start-line="148" selection-start-column="13" selection-end-line="148" selection-end-column="13" />
+            <state relative-caret-position="429">
+              <caret line="155" column="13" lean-forward="true" selection-start-line="155" selection-start-column="13" selection-end-line="155" selection-end-column="13" />
               <folding>
-                <marker date="1504025647168" expanded="true" signature="6:277" ph="..." />
-                <marker date="1504025647168" expanded="true" signature="311:4408" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="392:4406" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="510:562" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="632:1166" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="859:968" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="1012:1075" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="1092:1155" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="1246:1795" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="1357:1420" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="1437:1785" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="1890:2402" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="2001:2064" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="2081:2392" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="2495:3304" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="2542:2617" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="2634:3294" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="2947:3122" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="3158:3280" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="3419:4400" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="3466:3541" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="3558:4390" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="3681:4280" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="3942:4130" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="4170:4262" ph="{...}" />
-                <marker date="1504025647168" expanded="true" signature="4301:4376" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EditSolutionResource.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/alfrek.api/Controllers/Resources/Input/EditSolutionResource.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" column="36" lean-forward="false" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
-              <folding>
-                <marker date="1504025470310" expanded="true" signature="48:547" ph="{...}" />
-                <marker date="1504025470310" expanded="true" signature="88:545" ph="{...}" />
-                <marker date="1504025470310" expanded="true" signature="383:539" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="6:277" ph="..." />
+                <marker date="1504026102038" expanded="true" signature="311:5194" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="392:5192" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="510:562" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="632:1166" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="859:968" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="1012:1075" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="1092:1155" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="1246:1795" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="1357:1420" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="1437:1785" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="1890:2402" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="2001:2064" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="2081:2392" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="2495:3304" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="2542:2617" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="2634:3294" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="2947:3122" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="3158:3280" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="3419:4419" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="3466:3541" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="3558:4409" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="3681:4280" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="3942:4130" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="4170:4262" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="4301:4395" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="4505:5186" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="4552:4627" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="4728:4791" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="4808:5163" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="4842:5033" ph="{...}" />
+                <marker date="1504026102038" expanded="true" signature="5069:5149" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -166,7 +157,6 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/alfrek.api/Startup.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/alfrek.api/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/alfrek.api/Controllers/Resources/Input/EditSolutionResource.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/alfrek.api/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/alfrek.api/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/alfrek.api/Models/Solution.cs" root0="FORCE_HIGHLIGHTING" />
@@ -432,12 +422,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1504009043106</updated>
-      <workItem from="1504009045039" duration="4771000" />
+      <workItem from="1504009045039" duration="5236000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4771000" />
+    <option name="totallyTimeSpent" value="5236000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -457,8 +447,8 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.50159234" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32967034" sideWeight="0.49840763" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.49840763" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25238854" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -655,45 +645,47 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="9" column="36" lean-forward="false" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
-          <folding>
-            <marker date="1504025470310" expanded="true" signature="48:547" ph="{...}" />
-            <marker date="1504025470310" expanded="true" signature="88:545" ph="{...}" />
-            <marker date="1504025470310" expanded="true" signature="383:539" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/alfrek.api/Controllers/SolutionsController.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="717">
-          <caret line="148" column="13" lean-forward="true" selection-start-line="148" selection-start-column="13" selection-end-line="148" selection-end-column="13" />
+        <state relative-caret-position="429">
+          <caret line="155" column="13" lean-forward="true" selection-start-line="155" selection-start-column="13" selection-end-line="155" selection-end-column="13" />
           <folding>
-            <marker date="1504025647168" expanded="true" signature="6:277" ph="..." />
-            <marker date="1504025647168" expanded="true" signature="311:4408" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="392:4406" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="510:562" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="632:1166" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="859:968" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="1012:1075" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="1092:1155" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="1246:1795" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="1357:1420" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="1437:1785" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="1890:2402" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="2001:2064" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="2081:2392" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="2495:3304" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="2542:2617" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="2634:3294" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="2947:3122" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="3158:3280" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="3419:4400" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="3466:3541" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="3558:4390" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="3681:4280" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="3942:4130" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="4170:4262" ph="{...}" />
-            <marker date="1504025647168" expanded="true" signature="4301:4376" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="6:277" ph="..." />
+            <marker date="1504026102038" expanded="true" signature="311:5194" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="392:5192" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="510:562" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="632:1166" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="859:968" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="1012:1075" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="1092:1155" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="1246:1795" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="1357:1420" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="1437:1785" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="1890:2402" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="2001:2064" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="2081:2392" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="2495:3304" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="2542:2617" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="2634:3294" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="2947:3122" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="3158:3280" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="3419:4419" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="3466:3541" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="3558:4409" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="3681:4280" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="3942:4130" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="4170:4262" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="4301:4395" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="4505:5186" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="4552:4627" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="4728:4791" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="4808:5163" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="4842:5033" ph="{...}" />
+            <marker date="1504026102038" expanded="true" signature="5069:5149" ph="{...}" />
           </folding>
         </state>
       </provider>

@@ -148,5 +148,34 @@ namespace alfrek.api.Controllers
                 }
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var solution = await _context.Solutions.FindAsync(id);
+            if (solution == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                try
+                {
+                    _context.Solutions.Remove(solution);
+                    _context.SaveChanges();
+                    return Ok(solution);
+            
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(500);
+                }
+            }
+            
+        }
     }
 }
