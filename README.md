@@ -15,6 +15,15 @@ Add your connectionString in appsettings.Development.json
     "Default": "" // Add your localhost string in appsettings.Development
   }
 ```
+
+Windows connectionstring
+````javascript
+{
+    "ConnectionStrings": {
+        "Default": "Server=(localdb)\\mssqllocaldb;Database=alfrek_dev;Trusted_connection=true;"
+    }
+}
+```
 Set environment to Development
 - On Mac/Linux<br>
 ```export ASPNETCORE_ENVIRONMENT=Development```
