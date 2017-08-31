@@ -24,6 +24,7 @@ Windows connectionstring
     }
 }
 ```
+
 Set environment to Development
 - On Mac/Linux<br>
 ```export ASPNETCORE_ENVIRONMENT=Development```
