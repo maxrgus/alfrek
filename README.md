@@ -17,7 +17,7 @@ Add your connectionString in appsettings.Development.json
 ```
 
 Windows connectionstring
-````javascript
+```javascript
 {
     "ConnectionStrings": {
         "Default": "Server=(localdb)\\mssqllocaldb;Database=alfrek_dev;Trusted_connection=true;"
