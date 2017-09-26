@@ -11,9 +11,10 @@ using System;
 namespace alfrek.api.Migrations
 {
     [DbContext(typeof(AlfrekDbContext))]
-    partial class AlfrekDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170913090934_SeedComments")]
+    partial class SeedComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
