@@ -5,12 +5,13 @@ using alfrek.api.Controllers.Resources.Input;
 using alfrek.api.Controllers.Resources.View;
 using alfrek.api.Models;
 using alfrek.api.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace alfrek.api.Controllers
 {
-    [Route("/[controller]")]
+    [Route("[controller]")]
     public class SolutionsController : Controller
     {
         private readonly AlfrekDbContext _context;
@@ -19,7 +20,8 @@ namespace alfrek.api.Controllers
         {
             _context = context;
         }
-
+        
+        [Authorize]
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
