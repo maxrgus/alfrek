@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using alfrek.api.Controllers.Resources.Input;
 using alfrek.api.Controllers.Resources.View;
 using alfrek.api.Models;
 using alfrek.api.Persistence;
@@ -10,7 +11,7 @@ using SQLitePCL;
 
 namespace alfrek.api.Controllers
 {
-    [Route("/[controller]")]
+    [Route("{solutionId}/[controller]")]
     public class CommentsController : Controller
     {
         private readonly AlfrekDbContext _context;
@@ -20,17 +21,18 @@ namespace alfrek.api.Controllers
             _context = context;
         }
         
-        // GET
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+       /* // GET
+        [HttpGet("")]
+        public async Task<IActionResult> Get(int solutionId)
         {
-            var comments = await _context.Comments.Where(x => x.SolutionId == id).ToListAsync();
+            var comments = await _context.Comments.Where(x => x.SolutionId == solutionId).ToListAsync();
             
             if (comments != null && comments.Count > 0)
             {
                 var result = comments.Select(s => new CommentListResource()
                 {
                     Id = s.Id,
+                    SolutionId = s.SolutionId,
                     UserId = s.UserId,
                     CommentBody = s.CommentBody
                 }).ToList();
@@ -45,8 +47,8 @@ namespace alfrek.api.Controllers
         }
         
         // POST
-        [HttpPost("{id}")]
-        public IActionResult Post(int solutionId, int userId, string commentBody)
+        [HttpPost("")]
+        public IActionResult Post([FromBody] SaveCommentResource s)
         {
             if (!ModelState.IsValid)
             {
@@ -55,9 +57,9 @@ namespace alfrek.api.Controllers
             else
             {
                 var comment = new Comment();
-                comment.UserId = userId;
-                comment.SolutionId = solutionId;
-                comment.CommentBody = commentBody;
+                comment.SolutionId = s.SolutionId;
+                comment.UserId = s.UserId;
+                comment.CommentBody = s.CommentBody;
 
                 try
                 {
@@ -76,7 +78,7 @@ namespace alfrek.api.Controllers
         // EDIT
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int commentId, string commentBody)
+        public async Task<IActionResult> Put(int id, [FromBody] EditCommentResource s)
         {
             if (!ModelState.IsValid)
             {
@@ -85,10 +87,10 @@ namespace alfrek.api.Controllers
             else
             {
                 
-                var comment = await _context.Comments.FindAsync(commentId);
+                var comment = await _context.Comments.FindAsync(id);
                 if (comment != null)
                 {
-                    comment.CommentBody = commentBody;
+                    comment.CommentBody = s.CommentBody;
 
                     try
                     {
@@ -114,7 +116,7 @@ namespace alfrek.api.Controllers
         // DELETE
         
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int commentId)
+        public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -123,7 +125,12 @@ namespace alfrek.api.Controllers
             else
             {
                 
-                var comment = await _context.Comments.FindAsync(commentId);
+                var comment = await _context.Comments.FindAsync(id);
+                var solution = await _context.Solutions.FindAsync(id);
+                solution.Comments.Select(x => x.Id == commentId) {
+                    x.Remove;
+                };
+                _context.SaveChanges();
                 if (comment != null)
                 {
                     try
@@ -139,12 +146,12 @@ namespace alfrek.api.Controllers
                 }
                 else
                 {
-                    return NotFound("No comment to delete");
+                    return NotFound("No comment to delete with id" + id);
                 }
                 
             }
         }
         
-        
+        */
     }
 }

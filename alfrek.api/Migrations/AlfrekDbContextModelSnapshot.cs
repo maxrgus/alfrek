@@ -34,6 +34,8 @@ namespace alfrek.api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SolutionId");
+
                     b.ToTable("Comments");
                 });
 
@@ -63,6 +65,14 @@ namespace alfrek.api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Solutions");
+                });
+
+            modelBuilder.Entity("alfrek.api.Models.Comment", b =>
+                {
+                    b.HasOne("alfrek.api.Models.Solution")
+                        .WithMany("Comments")
+                        .HasForeignKey("SolutionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -11,7 +11,7 @@ using System;
 namespace alfrek.api.Migrations
 {
     [DbContext(typeof(AlfrekDbContext))]
-    [Migration("20170829150951_Solutions")]
+    [Migration("20170929150544_Solutions")]
     partial class Solutions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,25 @@ namespace alfrek.api.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("alfrek.api.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CommentBody")
+                        .IsRequired();
+
+                    b.Property<int>("SolutionId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SolutionId");
+
+                    b.ToTable("Comments");
+                });
 
             modelBuilder.Entity("alfrek.api.Models.Solution", b =>
                 {
@@ -47,6 +66,14 @@ namespace alfrek.api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Solutions");
+                });
+
+            modelBuilder.Entity("alfrek.api.Models.Comment", b =>
+                {
+                    b.HasOne("alfrek.api.Models.Solution")
+                        .WithMany("Comments")
+                        .HasForeignKey("SolutionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

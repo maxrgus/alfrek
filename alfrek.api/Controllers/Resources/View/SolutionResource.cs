@@ -1,4 +1,7 @@
-﻿namespace alfrek.api.Controllers.Resources.View
+﻿using System.Collections.Generic;
+using alfrek.api.Models;
+
+namespace alfrek.api.Controllers.Resources.View
 {
     public class SolutionResource
     {
@@ -10,12 +13,14 @@
         public string ProblemBody { get; set; }
         public string SolutionBody { get; set; }
 
+        public List<Comment> Comments { get; set; }
+
         public SolutionResource()
         {
             
         }
         public SolutionResource(int id, string title, string byLine, double? rating, string problemBody, 
-            string solutionBody)
+            string solutionBody, List<Comment> comments)
         {
             Id = id;
             Title = title;
@@ -23,6 +28,7 @@
             Rating = rating;
             ProblemBody = problemBody;
             SolutionBody = solutionBody;
+            Comments = comments;
         }
     }
 }
