@@ -20,7 +20,8 @@ namespace alfrek.api.Controllers
         {
             _context = context;
         }
-       
+        
+        [Authorize]
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
