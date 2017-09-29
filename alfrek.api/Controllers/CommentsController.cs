@@ -77,7 +77,7 @@ namespace alfrek.api.Controllers
         // EDIT
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int commentId, string commentBody)
+        public async Task<IActionResult> Put([FromBody] EditCommentResource s)
         {
             if (!ModelState.IsValid)
             {
@@ -86,10 +86,10 @@ namespace alfrek.api.Controllers
             else
             {
                 
-                var comment = await _context.Comments.FindAsync(commentId);
+                var comment = await _context.Comments.FindAsync(s.Id);
                 if (comment != null)
                 {
-                    comment.CommentBody = commentBody;
+                    comment.CommentBody = s.CommentBody;
 
                     try
                     {
@@ -115,7 +115,7 @@ namespace alfrek.api.Controllers
         // DELETE
         
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int commentId)
+        public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -124,7 +124,7 @@ namespace alfrek.api.Controllers
             else
             {
                 
-                var comment = await _context.Comments.FindAsync(commentId);
+                var comment = await _context.Comments.FindAsync(id);
                 if (comment != null)
                 {
                     try
