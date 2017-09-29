@@ -20,8 +20,7 @@ namespace alfrek.api.Controllers
         {
             _context = context;
         }
-        
-        [Authorize]
+       
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
@@ -48,7 +47,8 @@ namespace alfrek.api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var solution = await _context.Solutions.FindAsync(id);
+            var solution = await _context.Solutions.Include(s => s.Comments).SingleOrDefaultAsync(x => x.Id == id);
+            
             if (solution == null)
             {
                 return NotFound();
@@ -61,7 +61,8 @@ namespace alfrek.api.Controllers
                     solution.ByLine, 
                     solution.Rating, 
                     solution.ProblemBody, 
-                    solution.SolutionBody);
+                    solution.SolutionBody,
+                    solution.Comments);
 
                 return Ok(result);
             }

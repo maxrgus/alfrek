@@ -21,7 +21,7 @@ namespace alfrek.api.Controllers
             _context = context;
         }
         
-        // GET
+       /* // GET
         [HttpGet("")]
         public async Task<IActionResult> Get(int solutionId)
         {
@@ -126,6 +126,11 @@ namespace alfrek.api.Controllers
             {
                 
                 var comment = await _context.Comments.FindAsync(id);
+                var solution = await _context.Solutions.FindAsync(id);
+                solution.Comments.Select(x => x.Id == commentId) {
+                    x.Remove;
+                };
+                _context.SaveChanges();
                 if (comment != null)
                 {
                     try
@@ -147,6 +152,6 @@ namespace alfrek.api.Controllers
             }
         }
         
-        
+        */
     }
 }

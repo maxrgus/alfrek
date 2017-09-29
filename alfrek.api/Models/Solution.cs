@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using alfrek.api.Models.Solutions;
 
@@ -27,6 +29,8 @@ namespace alfrek.api.Models
 
 //        public List<Attachment> Attachments { get; set; }
 
+        public List<Comment> Comments { get; set; }
+
         public Solution()
         {
             
@@ -40,6 +44,7 @@ namespace alfrek.api.Models
             Views = views;
             ProblemBody = problemBody;
             SolutionBody = solutionBody;
+            Comments = new List<Comment>();
         }
     }
 }

@@ -11,8 +11,8 @@ using System;
 namespace alfrek.api.Migrations
 {
     [DbContext(typeof(AlfrekDbContext))]
-    [Migration("20170913090934_SeedComments")]
-    partial class SeedComments
+    [Migration("20170929150627_SeedSolutions")]
+    partial class SeedSolutions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,8 @@ namespace alfrek.api.Migrations
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SolutionId");
 
                     b.ToTable("Comments");
                 });
@@ -64,6 +66,14 @@ namespace alfrek.api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Solutions");
+                });
+
+            modelBuilder.Entity("alfrek.api.Models.Comment", b =>
+                {
+                    b.HasOne("alfrek.api.Models.Solution")
+                        .WithMany("Comments")
+                        .HasForeignKey("SolutionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

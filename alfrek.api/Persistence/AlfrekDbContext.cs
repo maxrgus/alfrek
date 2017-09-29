@@ -12,6 +12,5 @@ namespace alfrek.api.Persistence
         }
         
         public DbSet<Solution> Solutions { get; set; }
-        public DbSet<Comment> Comments { get; set; }
     }
 }
