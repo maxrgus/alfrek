@@ -6,14 +6,15 @@ using alfrek.api.Models;
 using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
+using Microsoft.Extensions.Options;
 
 namespace alfrek.api.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly TokenConfiguration _configuration;
+        private readonly IOptions<TokenConfiguration> _configuration;
 
-        public TokenService(TokenConfiguration configuration)
+        public TokenService(IOptions<TokenConfiguration> configuration)
         {
             _configuration = configuration;
         }
@@ -44,13 +45,13 @@ namespace alfrek.api.Services
 
         private string GetToken(Dictionary<string, object> payload)
         {
-            var secret = _configuration.Secret;
+            var secret = _configuration.Value.Secret;
             
-            payload.Add("iss", _configuration.Issuer);
-            payload.Add("aud", _configuration.Audience);
+            payload.Add("iss", _configuration.Value.Issuer);
+            payload.Add("aud", _configuration.Value.Audience);
             payload.Add("nbf", ConvertToUnixTimestamp(DateTime.Now));
             payload.Add("iat", ConvertToUnixTimestamp(DateTime.Now));
-            payload.Add("exp", ConvertToUnixTimestamp(DateTime.Now.AddMinutes(_configuration.Expiry)));
+            payload.Add("exp", ConvertToUnixTimestamp(DateTime.Now.AddMinutes(_configuration.Value.Expiry)));
             
             IJwtAlgorithm algorithm = new HMACSHA256Algorithm();
             IJsonSerializer serializer = new JsonNetSerializer();

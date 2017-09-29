@@ -74,11 +74,24 @@ namespace alfrek.api.Controllers
             }
 
             var user = await _userManager.FindByEmailAsync(email);
-            return new JsonResult( new Dictionary<string, object>
+
+            var claims = new[]
             {
-                { "access_token", _tokenService.GetAccessToken(email)},
-                { "id_token", _tokenService.GetIdToken(user)}
-            });
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), 
+            };
+            
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("supersecret1supersecret"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            
+            var token = new JwtSecurityToken("http://localhost:5000","http://localhost:5000",
+                claims,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: creds);
+
+            return Ok(new {token = new JwtSecurityTokenHandler().WriteToken(token)});
+
+
         }
 
         [HttpPost("logout")]
