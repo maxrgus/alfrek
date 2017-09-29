@@ -11,7 +11,7 @@ using SQLitePCL;
 
 namespace alfrek.api.Controllers
 {
-    [Route("/[controller]")]
+    [Route("{solutionId}/[controller]")]
     public class CommentsController : Controller
     {
         private readonly AlfrekDbContext _context;
@@ -22,16 +22,17 @@ namespace alfrek.api.Controllers
         }
         
         // GET
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("")]
+        public async Task<IActionResult> Get(int solutionId)
         {
-            var comments = await _context.Comments.Where(x => x.SolutionId == id).ToListAsync();
+            var comments = await _context.Comments.Where(x => x.SolutionId == solutionId).ToListAsync();
             
             if (comments != null && comments.Count > 0)
             {
                 var result = comments.Select(s => new CommentListResource()
                 {
                     Id = s.Id,
+                    SolutionId = s.SolutionId,
                     UserId = s.UserId,
                     CommentBody = s.CommentBody
                 }).ToList();
@@ -46,7 +47,7 @@ namespace alfrek.api.Controllers
         }
         
         // POST
-        [HttpPost("{id}")]
+        [HttpPost("")]
         public IActionResult Post([FromBody] SaveCommentResource s)
         {
             if (!ModelState.IsValid)
@@ -56,8 +57,8 @@ namespace alfrek.api.Controllers
             else
             {
                 var comment = new Comment();
-                comment.UserId = s.UserId;
                 comment.SolutionId = s.SolutionId;
+                comment.UserId = s.UserId;
                 comment.CommentBody = s.CommentBody;
 
                 try
@@ -77,7 +78,7 @@ namespace alfrek.api.Controllers
         // EDIT
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] EditCommentResource s)
+        public async Task<IActionResult> Put(int id, [FromBody] EditCommentResource s)
         {
             if (!ModelState.IsValid)
             {
@@ -86,7 +87,7 @@ namespace alfrek.api.Controllers
             else
             {
                 
-                var comment = await _context.Comments.FindAsync(s.Id);
+                var comment = await _context.Comments.FindAsync(id);
                 if (comment != null)
                 {
                     comment.CommentBody = s.CommentBody;
@@ -140,7 +141,7 @@ namespace alfrek.api.Controllers
                 }
                 else
                 {
-                    return NotFound("No comment to delete");
+                    return NotFound("No comment to delete with id" + id);
                 }
                 
             }
