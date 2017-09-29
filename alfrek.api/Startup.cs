@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using alfrek.api.Configuration;
+using alfrek.api.Interfaces;
 using alfrek.api.Models;
 using alfrek.api.Persistence;
+using alfrek.api.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -43,11 +46,15 @@ namespace alfrek.api
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<UserDbContext>();
 
+            services.Configure<TokenConfiguration>(Configuration.GetSection("Token"));
+
+            services.AddTransient<ITokenService,TokenService>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.Audience = "http://localhost:5000";
-                    options.Authority = "http://locaohost:5000";
+                    options.Audience = Configuration.GetSection("Token").GetValue<string>("Audience");
+                    options.Authority = Configuration.GetSection("Token").GetValue<string>("Authority");
                 });
             
             services.AddMvc();
@@ -63,7 +70,7 @@ namespace alfrek.api
            
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            
             app.UseAuthentication();
 
             app.UseMvc();
