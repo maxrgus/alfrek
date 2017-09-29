@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using alfrek.api.Controllers.Resources.Input;
 using alfrek.api.Controllers.Resources.View;
+using alfrek.api.Migrations;
 using alfrek.api.Models;
 using alfrek.api.Persistence;
 using Microsoft.AspNetCore.Mvc;
@@ -21,34 +22,10 @@ namespace alfrek.api.Controllers
             _context = context;
         }
         
-       /* // GET
-        [HttpGet("")]
-        public async Task<IActionResult> Get(int solutionId)
-        {
-            var comments = await _context.Comments.Where(x => x.SolutionId == solutionId).ToListAsync();
-            
-            if (comments != null && comments.Count > 0)
-            {
-                var result = comments.Select(s => new CommentListResource()
-                {
-                    Id = s.Id,
-                    SolutionId = s.SolutionId,
-                    UserId = s.UserId,
-                    CommentBody = s.CommentBody
-                }).ToList();
-                
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound();
-            }
-            
-        }
         
         // POST
         [HttpPost("")]
-        public IActionResult Post([FromBody] SaveCommentResource s)
+        public async Task<IActionResult> Post([FromBody] SaveCommentResource s)
         {
             if (!ModelState.IsValid)
             {
@@ -56,16 +33,15 @@ namespace alfrek.api.Controllers
             }
             else
             {
-                var comment = new Comment();
-                comment.SolutionId = s.SolutionId;
-                comment.UserId = s.UserId;
-                comment.CommentBody = s.CommentBody;
-
+                var solution = await _context.Solutions.Include(y => y.Comments).SingleOrDefaultAsync(x => x.Id == s.SolutionId);
+                
+                solution.Comments.Add(new Comment(s.UserId, s.SolutionId, s.CommentBody));
+                
                 try
                 {
-                    _context.Comments.Add(comment);
+                    _context.Solutions.Update(solution);
                     _context.SaveChanges();
-                    return Ok(comment);
+                    return Ok();
                 }
                 catch (Exception e)
                 {
@@ -87,16 +63,23 @@ namespace alfrek.api.Controllers
             else
             {
                 
-                var comment = await _context.Comments.FindAsync(id);
-                if (comment != null)
+                var solution = await _context.Solutions.Include(y => y.Comments).SingleOrDefaultAsync(x => x.Id == s.SolutionId);
+                if (solution != null)
                 {
-                    comment.CommentBody = s.CommentBody;
 
+                    foreach (var c in solution.Comments)
+                    {
+                        if (c.Id == id)
+                        {
+                            c.CommentBody = s.CommentBody;
+                        }
+                    }
+                   
                     try
                     {
-                        _context.Update(comment);
+                        _context.Update(solution);
                         _context.SaveChanges();
-                        return Ok(comment);
+                        return Ok();
                     }
                     catch (Exception e)
                     {
@@ -114,9 +97,8 @@ namespace alfrek.api.Controllers
         
         
         // DELETE
-        
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int solutionId, int id)
         {
             if (!ModelState.IsValid)
             {
@@ -124,34 +106,28 @@ namespace alfrek.api.Controllers
             }
             else
             {
+                var solution = await _context.Solutions.Include(y => y.Comments).SingleOrDefaultAsync(x => x.Id == solutionId);
                 
-                var comment = await _context.Comments.FindAsync(id);
-                var solution = await _context.Solutions.FindAsync(id);
-                solution.Comments.Select(x => x.Id == commentId) {
-                    x.Remove;
-                };
-                _context.SaveChanges();
-                if (comment != null)
+                foreach (var c in solution.Comments)
                 {
-                    try
+                    if (c.Id == id)
                     {
-                        _context.Comments.Remove(comment);
-                        _context.SaveChanges();
-                        return Ok();
-                    }
-                    catch (Exception e)
-                    {
-                        return StatusCode(500);
+                        solution.Comments.Remove(c);
+                        try
+                        {
+                            _context.SaveChanges();
+                            return Ok();
+                        }
+                        catch (Exception e)
+                        {
+                            return StatusCode(500);
+                        }
                     }
                 }
-                else
-                {
-                    return NotFound("No comment to delete with id" + id);
-                }
-                
+                return StatusCode(500);
+             
             }
         }
-        
-        */
+       
     }
 }
