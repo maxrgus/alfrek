@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using alfrek.api.Controllers.Resources.Input;
 using alfrek.api.Controllers.Resources.View;
 using alfrek.api.Models;
 using alfrek.api.Persistence;
@@ -46,7 +47,7 @@ namespace alfrek.api.Controllers
         
         // POST
         [HttpPost("{id}")]
-        public IActionResult Post(int solutionId, int userId, string commentBody)
+        public IActionResult Post([FromBody] SaveCommentResource s)
         {
             if (!ModelState.IsValid)
             {
@@ -55,9 +56,9 @@ namespace alfrek.api.Controllers
             else
             {
                 var comment = new Comment();
-                comment.UserId = userId;
-                comment.SolutionId = solutionId;
-                comment.CommentBody = commentBody;
+                comment.UserId = s.UserId;
+                comment.SolutionId = s.SolutionId;
+                comment.CommentBody = s.CommentBody;
 
                 try
                 {
