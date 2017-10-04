@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using alfrek.api.Configuration;
-using alfrek.api.Interfaces;
 using alfrek.api.Models;
+using alfrek.api.Services.Interfaces;
 using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace alfrek.api.Services
 {
@@ -18,55 +22,21 @@ namespace alfrek.api.Services
         {
             _configuration = configuration;
         }
-        
-        public string GetIdToken(ApplicationUser user)
+
+        public JwtSecurityToken GetToken(ApplicationUser user)
         {
-            var payload = new Dictionary<string, object>
+            var claims = new[]
             {
-                {"id", user.Id},
-                {"sub", user.Email},
-                {"email", user.Email},
-                {"emailConfirmed", user.EmailConfirmed},
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), 
             };
-
-            return GetToken(payload);
-        }
-
-        public string GetAccessToken(string email)
-        {
-            var payload = new Dictionary<string, object>
-            {
-                {"sub", email},
-                {"email", email}
-            };
-
-            return GetToken(payload);
-        }
-
-        private string GetToken(Dictionary<string, object> payload)
-        {
-            var secret = _configuration.Value.Secret;
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.Value.Secret));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             
-            payload.Add("iss", _configuration.Value.Issuer);
-            payload.Add("aud", _configuration.Value.Audience);
-            payload.Add("nbf", ConvertToUnixTimestamp(DateTime.Now));
-            payload.Add("iat", ConvertToUnixTimestamp(DateTime.Now));
-            payload.Add("exp", ConvertToUnixTimestamp(DateTime.Now.AddMinutes(_configuration.Value.Expiry)));
-            
-            IJwtAlgorithm algorithm = new HMACSHA256Algorithm();
-            IJsonSerializer serializer = new JsonNetSerializer();
-            IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
-            IJwtEncoder encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
-
-            return encoder.Encode(payload, secret);
-            
-        }
-        
-        private static double ConvertToUnixTimestamp(DateTime date)
-        {
-            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            TimeSpan diff = date.ToUniversalTime() - origin;
-            return Math.Floor(diff.TotalSeconds);
+            return new JwtSecurityToken(_configuration.Value.Issuer,_configuration.Value.Audience,
+                claims,
+                expires: DateTime.Now.AddMinutes(_configuration.Value.Expiry),
+                signingCredentials: creds);
         }
     }
 }

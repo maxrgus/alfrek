@@ -5,10 +5,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using alfrek.api.Interfaces;
+using alfrek.api.Controllers.Resources.Input;
 using alfrek.api.Models;
 using alfrek.api.Persistence;
 using alfrek.api.Services;
+using alfrek.api.Services.Interfaces;
 using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
@@ -33,7 +34,7 @@ namespace alfrek.api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(string email, string password)
+        public async Task<IActionResult> Register([FromBody] RegisterResource resource)
         {
             if (!ModelState.IsValid)
             {
@@ -41,11 +42,11 @@ namespace alfrek.api.Controllers
             }
             var user = new ApplicationUser
             {
-                UserName = email,
-                Email = email,
+                UserName = resource.Email,
+                Email = resource.Email,
             };
 
-            var result = await _userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user, resource.Password);
             
             if (!result.Succeeded)
             {
@@ -53,43 +54,29 @@ namespace alfrek.api.Controllers
             }
 
             await _signInManager.SignInAsync(user, false);
-            
-            return Ok(user);
+
+            return Ok(new {token = new JwtSecurityTokenHandler().WriteToken(_tokenService.GetToken(user))});
 
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login([FromBody] LoginResource resource)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _signInManager.PasswordSignInAsync(email, password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(resource.Email, resource.Password, false, false);
 
             if (!result.Succeeded)
             {
                 return BadRequest();
             }
 
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(resource.Email);
 
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), 
-            };
-            
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("supersecret1supersecret"));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            
-            var token = new JwtSecurityToken("http://localhost:5000","http://localhost:5000",
-                claims,
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: creds);
-
-            return Ok(new {token = new JwtSecurityTokenHandler().WriteToken(token)});
+            return Ok(new {token = new JwtSecurityTokenHandler().WriteToken(_tokenService.GetToken(user))});
 
 
         }
