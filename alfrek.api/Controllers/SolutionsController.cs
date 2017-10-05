@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using alfrek.api.Authorization;
 using alfrek.api.Controllers.Resources.Input;
 using alfrek.api.Controllers.Resources.View;
 using alfrek.api.Controllers.Resources.View.Solutions;
@@ -22,12 +23,15 @@ namespace alfrek.api.Controllers
     {
         private readonly AlfrekDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IAuthorizationService _authorizationService;
 
 
-        public SolutionsController(AlfrekDbContext context, UserManager<ApplicationUser> userManager)
+        public SolutionsController(AlfrekDbContext context, UserManager<ApplicationUser> userManager, 
+            IAuthorizationService authorizationService)
         {
             _context = context;
             _userManager = userManager;
+            _authorizationService = authorizationService;
         }
         [Authorize(Roles = "Researcher,Member")]
         [HttpGet("")]
@@ -167,9 +171,15 @@ namespace alfrek.api.Controllers
             }
             else
             {
-                var solution = await _context.Solutions.FindAsync(id);
+                var solution = await _context.Solutions.Include(a => a.Author).SingleOrDefaultAsync(x => x.Id == id);
                 if (solution != null)
                 {
+                    var auth = await _authorizationService.AuthorizeAsync(User, solution, Operations.Update);
+                    if (!auth.Succeeded)
+                    {
+                        return Challenge();
+                    }
+                    
                     solution.Title = s.Title;
                     solution.ByLine = s.ByLine;
                     solution.ProblemBody = s.ProblemBody;

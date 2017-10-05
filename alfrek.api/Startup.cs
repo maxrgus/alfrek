@@ -4,13 +4,16 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using alfrek.api.Authorization;
 using alfrek.api.Configuration;
+using alfrek.api.Interfaces;
 using alfrek.api.Models;
 using alfrek.api.Persistence;
 using alfrek.api.Services;
 using alfrek.api.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -52,6 +55,8 @@ namespace alfrek.api
             services.Configure<TokenConfiguration>(Configuration.GetSection("Token"));
 
             services.AddTransient<ITokenService,TokenService>();
+
+            services.AddSingleton<IAuthorizationHandler, SolutionAuthorizationHandler>();
 
             var secretKey = Configuration.GetSection("Token").GetValue<string>("Secret");
             
