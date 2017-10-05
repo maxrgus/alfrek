@@ -26,7 +26,8 @@ namespace alfrek.api.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ITokenService _tokenService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenService tokenService)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, 
+            ITokenService tokenService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -53,6 +54,8 @@ namespace alfrek.api.Controllers
             {
                 return BadRequest(result.Errors.Select(x => x.Description).ToList());
             }
+            
+            await _userManager.AddToRoleAsync(user, "Member");
 
             await _signInManager.SignInAsync(user, false);
 
@@ -60,6 +63,35 @@ namespace alfrek.api.Controllers
 
         }
 
+
+        [HttpPost("register/researcher")]
+        public async Task<IActionResult> RegisterResearcher([FromBody] RegisterResource resource)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            var user = new ApplicationUser
+            {
+                UserName = resource.Email,
+                Email = resource.Email,
+            };
+            
+            var result = await _userManager.CreateAsync(user, resource.Password);
+            
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors.Select(x => x.Description).ToList());
+            }
+
+            await _userManager.AddToRoleAsync(user, "Researcher");
+
+            await _signInManager.SignInAsync(user, false);
+
+            return Ok(new {token = new JwtSecurityTokenHandler().WriteToken(await _tokenService.GetToken(user))});
+        }
+        
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginResource resource)
         {

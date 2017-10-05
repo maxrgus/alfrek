@@ -29,7 +29,7 @@ namespace alfrek.api.Controllers
             _context = context;
             _userManager = userManager;
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Researcher,Member")]
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {   
@@ -52,7 +52,8 @@ namespace alfrek.api.Controllers
             }
 
         }
-
+        
+        [Authorize(Roles = "Researcher,Member")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -112,7 +113,7 @@ namespace alfrek.api.Controllers
                 return Ok(result);
             }
         }
-
+        [Authorize(Roles = "Researcher")]
         [HttpPost("")]
         public async Task<IActionResult> Post([FromBody] SaveSolutionResource s)
         {
@@ -156,7 +157,7 @@ namespace alfrek.api.Controllers
                 }
             }
         }
-
+        [Authorize(Roles = "Researcher")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] EditSolutionResource s)
         {
@@ -190,7 +191,8 @@ namespace alfrek.api.Controllers
                 }
             }
         }
-
+        
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
