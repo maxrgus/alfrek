@@ -78,7 +78,8 @@ namespace alfrek.api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, 
+            IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -89,9 +90,53 @@ namespace alfrek.api
             loggerFactory.AddDebug();
             
             app.UseAuthentication();
-   
+            
+            // Add application roles
+            CreateRoles(serviceProvider).Wait();
 
             app.UseMvc();
+        }
+        
+        
+        // Add application roles
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            string[] roleNames = {"Admin", "Researcher", "Member"};
+            IdentityResult roleResult;
+
+            var email = Configuration.GetSection("Administration").GetValue<string>("Email");
+            var password = Configuration.GetSection("Administration").GetValue<string>("Password");
+
+            foreach (var role in roleNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(role);
+                if (!roleExist)
+                {
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+            
+            // Check if admin user exists
+            var existingAdmin = await userManager.FindByEmailAsync(email);
+            
+            // If not, create the admin
+            if (existingAdmin == null)
+            {
+                var admin = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email
+                };
+                var result = await userManager.CreateAsync(admin, password);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, "Admin");
+                }
+            }       
+            
         }
     }
 }

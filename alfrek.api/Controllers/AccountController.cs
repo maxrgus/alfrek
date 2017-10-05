@@ -45,6 +45,7 @@ namespace alfrek.api.Controllers
                 UserName = resource.Email,
                 Email = resource.Email,
             };
+            
 
             var result = await _userManager.CreateAsync(user, resource.Password);
             
@@ -55,7 +56,7 @@ namespace alfrek.api.Controllers
 
             await _signInManager.SignInAsync(user, false);
 
-            return Ok(new {token = new JwtSecurityTokenHandler().WriteToken(_tokenService.GetToken(user))});
+            return Ok(new {token = new JwtSecurityTokenHandler().WriteToken(await _tokenService.GetToken(user))});
 
         }
 
@@ -76,7 +77,7 @@ namespace alfrek.api.Controllers
 
             var user = await _userManager.FindByEmailAsync(resource.Email);
 
-            return Ok(new {token = new JwtSecurityTokenHandler().WriteToken(_tokenService.GetToken(user))});
+            return Ok(new {token = new JwtSecurityTokenHandler().WriteToken(await _tokenService.GetToken(user))});
 
 
         }

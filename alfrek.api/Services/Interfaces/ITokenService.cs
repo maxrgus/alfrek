@@ -1,10 +1,11 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Threading.Tasks;
 using alfrek.api.Models;
 
 namespace alfrek.api.Services.Interfaces
 {
     public interface ITokenService
     {
-        JwtSecurityToken GetToken(ApplicationUser user);
+        Task<JwtSecurityToken> GetToken(ApplicationUser user);
     }
 }
