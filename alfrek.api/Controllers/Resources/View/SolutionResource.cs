@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using alfrek.api.Controllers.Resources.View.Solutions;
 using alfrek.api.Models;
 
 namespace alfrek.api.Controllers.Resources.View
@@ -13,6 +14,10 @@ namespace alfrek.api.Controllers.Resources.View
         public string ProblemBody { get; set; }
         public string SolutionBody { get; set; }
 
+        public AuthorResource Author { get; set; }
+
+        public List<AuthorResource> CoAuthors { get; set; }
+        
         public List<Comment> Comments { get; set; }
 
         public SolutionResource()
@@ -29,6 +34,8 @@ namespace alfrek.api.Controllers.Resources.View
             ProblemBody = problemBody;
             SolutionBody = solutionBody;
             Comments = comments;
+            Author = new AuthorResource();
+            CoAuthors = new List<AuthorResource>();
         }
     }
 }

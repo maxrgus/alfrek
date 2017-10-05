@@ -36,7 +36,7 @@ namespace alfrek.api.Models
 
         public Solution()
         {
-            
+            CoAuthors = new List<Author>();
         }
         public Solution(string title, string byLine, double? rating, string problemBody, 
             string solutionBody)
@@ -48,6 +48,7 @@ namespace alfrek.api.Models
             ProblemBody = problemBody;
             SolutionBody = solutionBody;
             Comments = new List<Comment>();
+            CoAuthors = new List<Author>();
         }
 
         public Solution(int id, string title, string byLine, double? rating, ApplicationUser author, 

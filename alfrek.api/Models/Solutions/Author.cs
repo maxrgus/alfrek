@@ -27,5 +27,9 @@ namespace alfrek.api.Models.Solutions
             Name = name;
             User = user;
         }
+
+        public Author()
+        {
+        }
     }
 }
