@@ -41,11 +41,13 @@ namespace alfrek.api
             services.AddDbContext<AlfrekDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
+/*
             services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
+*/
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<UserDbContext>();
+                .AddEntityFrameworkStores<AlfrekDbContext>();
 
             services.Configure<TokenConfiguration>(Configuration.GetSection("Token"));
 

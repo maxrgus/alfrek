@@ -11,9 +11,10 @@ using System;
 namespace alfrek.api.Migrations
 {
     [DbContext(typeof(AlfrekDbContext))]
-    partial class AlfrekDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171005001444_ApplicationUser")]
+    partial class ApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,9 +96,6 @@ namespace alfrek.api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuthorId")
-                        .IsRequired();
-
                     b.Property<string>("ByLine")
                         .IsRequired()
                         .HasMaxLength(255);
@@ -118,86 +116,7 @@ namespace alfrek.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
                     b.ToTable("Solutions");
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.Solutions.Attachment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("SolutionId");
-
-                    b.Property<string>("Title");
-
-                    b.Property<string>("Url");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SolutionId");
-
-                    b.ToTable("Attachments");
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.Solutions.Author", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("SolutionId");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SolutionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Authors");
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.Solutions.FeaturedImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ImageUrl");
-
-                    b.Property<string>("PreviewUrl");
-
-                    b.Property<int>("SolutionId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SolutionId")
-                        .IsUnique();
-
-                    b.ToTable("FeaturedImages");
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.Solutions.MetaTag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Key");
-
-                    b.Property<int>("SolutionId");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SolutionId");
-
-                    b.ToTable("MetaTags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -312,50 +231,6 @@ namespace alfrek.api.Migrations
                 {
                     b.HasOne("alfrek.api.Models.Solution")
                         .WithMany("Comments")
-                        .HasForeignKey("SolutionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.Solution", b =>
-                {
-                    b.HasOne("alfrek.api.Models.ApplicationUser", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.Solutions.Attachment", b =>
-                {
-                    b.HasOne("alfrek.api.Models.Solution")
-                        .WithMany("Attachments")
-                        .HasForeignKey("SolutionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.Solutions.Author", b =>
-                {
-                    b.HasOne("alfrek.api.Models.Solution")
-                        .WithMany("CoAuthors")
-                        .HasForeignKey("SolutionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("alfrek.api.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.Solutions.FeaturedImage", b =>
-                {
-                    b.HasOne("alfrek.api.Models.Solution")
-                        .WithOne("FeaturedImage")
-                        .HasForeignKey("alfrek.api.Models.Solutions.FeaturedImage", "SolutionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.Solutions.MetaTag", b =>
-                {
-                    b.HasOne("alfrek.api.Models.Solution")
-                        .WithMany("Tags")
                         .HasForeignKey("SolutionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
