@@ -50,7 +50,7 @@ namespace alfrek.api.Models
             Comments = new List<Comment>();
         }
 
-   /*     public Solution(int id, string title, string byLine, double? rating, ApplicationUser author, 
+        public Solution(int id, string title, string byLine, double? rating, ApplicationUser author, 
             List<Author> coAuthors, List<MetaTag> tags, FeaturedImage featuredImage, string problemBody, 
             string solutionBody, List<Attachment> attachments, List<Comment> comments)
         {
@@ -67,6 +67,6 @@ namespace alfrek.api.Models
             SolutionBody = solutionBody;
             Attachments = attachments;
             Comments = comments;
-        }*/
+        }
     }
 }
