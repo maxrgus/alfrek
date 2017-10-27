@@ -88,6 +88,13 @@ namespace alfrek.api
         {
             if (env.IsDevelopment())
             {
+                if(!Amazon.Util.ProfileManager.IsProfileKnown("Development"))
+                {
+                    Amazon.Util.ProfileManager.RegisterProfile("Development", 
+                        Configuration.GetSection("AWS").GetValue<string>("Key"), 
+                        Configuration.GetSection("AWS").GetValue<string>("Secret"));
+                    Console.WriteLine("Created AWS Development Profile");
+                }
                 app.UseDeveloperExceptionPage();
             }
            
@@ -96,7 +103,9 @@ namespace alfrek.api
             
             app.UseAuthentication();
             
+           
             // Add application roles
+            //TODO: Not when doing Migraitons
             CreateRoles(serviceProvider).Wait();
 
             app.UseMvc();
