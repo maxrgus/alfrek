@@ -96,7 +96,7 @@ namespace alfrek.api.Controllers
                 return Ok(result);
             }
         }
-
+        [AllowAnonymous]
         [HttpGet("preview/{id}")]
         public async Task<IActionResult> GetPreview(int id)
         {

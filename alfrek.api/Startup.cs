@@ -96,7 +96,9 @@ namespace alfrek.api
             
             app.UseAuthentication();
             
+           
             // Add application roles
+            //TODO: Not when doing Migraitons
             CreateRoles(serviceProvider).Wait();
 
             app.UseMvc();
