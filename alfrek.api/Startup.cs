@@ -88,6 +88,13 @@ namespace alfrek.api
         {
             if (env.IsDevelopment())
             {
+                if(!Amazon.Util.ProfileManager.IsProfileKnown("Development"))
+                {
+                    Amazon.Util.ProfileManager.RegisterProfile("Development", 
+                        Configuration.GetSection("AWS").GetValue<string>("Key"), 
+                        Configuration.GetSection("AWS").GetValue<string>("Secret"));
+                    Console.WriteLine("Created AWS Development Profile");
+                }
                 app.UseDeveloperExceptionPage();
             }
            
