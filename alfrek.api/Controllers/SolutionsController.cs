@@ -9,6 +9,7 @@ using alfrek.api.Controllers.Resources.View.Solutions;
 using alfrek.api.Models;
 using alfrek.api.Models.Solutions;
 using alfrek.api.Persistence;
+using alfrek.api.Storage.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -24,14 +25,16 @@ namespace alfrek.api.Controllers
         private readonly AlfrekDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAuthorizationService _authorizationService;
+        private readonly ICloudStorage _cloudStorage;
 
 
         public SolutionsController(AlfrekDbContext context, UserManager<ApplicationUser> userManager, 
-            IAuthorizationService authorizationService)
+            IAuthorizationService authorizationService, ICloudStorage cloudStorage)
         {
             _context = context;
             _userManager = userManager;
             _authorizationService = authorizationService;
+            _cloudStorage = cloudStorage;
         }
         [Authorize(Roles = "Researcher,Member")]
         [HttpGet("")]
@@ -230,6 +233,14 @@ namespace alfrek.api.Controllers
                 }
             }
             
+        }
+
+        [AllowAnonymous]
+        [HttpGet("buckets")]
+        public IActionResult Buckets()
+        {
+            _cloudStorage.ListStorage();
+            return Ok();
         }
     }
 }

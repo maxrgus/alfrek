@@ -11,6 +11,10 @@ using alfrek.api.Models;
 using alfrek.api.Persistence;
 using alfrek.api.Services;
 using alfrek.api.Services.Interfaces;
+using alfrek.api.Storage;
+using alfrek.api.Storage.Interfaces;
+using Amazon;
+using Amazon.Runtime.CredentialManagement;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -58,6 +62,8 @@ namespace alfrek.api
 
             services.AddSingleton<IAuthorizationHandler, SolutionAuthorizationHandler>();
 
+            services.AddSingleton<ICloudStorage, AwsStorage>();
+
             var secretKey = Configuration.GetSection("Token").GetValue<string>("Secret");
             
             services.AddAuthentication(options =>
@@ -88,12 +94,16 @@ namespace alfrek.api
         {
             if (env.IsDevelopment())
             {
-                if(!Amazon.Util.ProfileManager.IsProfileKnown("Development"))
+                var netSDKFile = new NetSDKCredentialsFile();
+                CredentialProfile basicProfile;
+                
+                if (netSDKFile.TryGetProfile("Development", out basicProfile))
                 {
-                    Amazon.Util.ProfileManager.RegisterProfile("Development", 
-                        Configuration.GetSection("AWS").GetValue<string>("Key"), 
-                        Configuration.GetSection("AWS").GetValue<string>("Secret"));
-                    Console.WriteLine("Created AWS Development Profile");
+                    basicProfile.Region = RegionEndpoint.EUCentral1;
+                    basicProfile.Options.AccessKey = Configuration.GetSection("AWS").GetValue<string>("Key");
+                    basicProfile.Options.SecretKey = Configuration.GetSection("AWS").GetValue<string>("Secret");
+                    
+                    netSDKFile.RegisterProfile((basicProfile));
                 }
                 app.UseDeveloperExceptionPage();
             }
