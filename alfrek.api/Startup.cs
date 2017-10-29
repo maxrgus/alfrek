@@ -58,6 +58,8 @@ namespace alfrek.api
                 .AddEntityFrameworkStores<AlfrekDbContext>();
 
             services.Configure<TokenConfiguration>(Configuration.GetSection("Token"));
+            
+            services.Configure<AwsConfiguration>(Configuration.GetSection("AWS"));
 
             services.AddTransient<ITokenService,TokenService>();
 
@@ -103,13 +105,14 @@ namespace alfrek.api
                 var netSDKFile = new NetSDKCredentialsFile();
                 CredentialProfile basicProfile;
                 
-                if (netSDKFile.TryGetProfile("Development", out basicProfile))
+                if (netSDKFile.TryGetProfile(Configuration.GetSection("AWS").GetValue<string>("ProfileName"), out basicProfile))
                 {
                     basicProfile.Region = RegionEndpoint.EUCentral1;
                     basicProfile.Options.AccessKey = Configuration.GetSection("AWS").GetValue<string>("Key");
                     basicProfile.Options.SecretKey = Configuration.GetSection("AWS").GetValue<string>("Secret");
                     
                     netSDKFile.RegisterProfile((basicProfile));
+                    Console.WriteLine("SUCCESS: CREATED PROFILE");
                 }
                 app.UseDeveloperExceptionPage();
             }
