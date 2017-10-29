@@ -30,6 +30,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace alfrek.api
 {
@@ -84,6 +85,11 @@ namespace alfrek.api
                     };
                     options.Validate();
                 });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Alfrek API", Version = "v1"});
+            });
             
             services.AddMvc();
         }
@@ -117,6 +123,12 @@ namespace alfrek.api
             // Add application roles
             //TODO: Not when doing Migraitons
             CreateRoles(serviceProvider).Wait();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alfrek API V1");
+            });
 
             app.UseMvc();
         }

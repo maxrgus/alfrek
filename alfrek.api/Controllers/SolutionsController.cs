@@ -36,7 +36,7 @@ namespace alfrek.api.Controllers
             _authorizationService = authorizationService;
             _cloudStorage = cloudStorage;
         }
-        [Authorize(Roles = "Researcher,Member")]
+        [Authorize(Roles = "Researcher,Member,Admin")]
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {   
