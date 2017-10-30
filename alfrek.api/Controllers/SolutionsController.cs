@@ -9,6 +9,7 @@ using alfrek.api.Controllers.Resources.View.Solutions;
 using alfrek.api.Models;
 using alfrek.api.Models.Solutions;
 using alfrek.api.Persistence;
+using alfrek.api.Repositories.Interfaces;
 using alfrek.api.Storage.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -22,25 +23,25 @@ namespace alfrek.api.Controllers
     [Route("[controller]")]
     public class SolutionsController : Controller
     {
-        private readonly AlfrekDbContext _context;
+        private readonly ISolutionRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAuthorizationService _authorizationService;
         private readonly ICloudStorage _cloudStorage;
 
 
-        public SolutionsController(AlfrekDbContext context, UserManager<ApplicationUser> userManager, 
-            IAuthorizationService authorizationService, ICloudStorage cloudStorage)
+        public SolutionsController(UserManager<ApplicationUser> userManager, 
+            IAuthorizationService authorizationService, ICloudStorage cloudStorage, ISolutionRepository repository)
         {
-            _context = context;
             _userManager = userManager;
             _authorizationService = authorizationService;
             _cloudStorage = cloudStorage;
+            _repository = repository;
         }
         [Authorize(Roles = "Researcher,Member,Admin")]
         [HttpGet("")]
         public async Task<IActionResult> Get()
-        {   
-            var solutions = await _context.Solutions.ToListAsync();
+        {
+            var solutions = await _repository.GetSolutions();
             // Map returned solutions to SolutionListResource
             var result = solutions.Select(s => new SolutionListResource()
             {
@@ -49,14 +50,7 @@ namespace alfrek.api.Controllers
                 ByLine = s.ByLine
             }).ToList();
 
-            if (result != null)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound();
-            }
+            return Ok(result);
 
         }
         
@@ -64,11 +58,7 @@ namespace alfrek.api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var solution = await _context.Solutions
-                .Include(s => s.Comments)
-                .Include(s => s.Author)
-                .Include(s => s.CoAuthors)
-                .SingleOrDefaultAsync(x => x.Id == id);
+            var solution = await _repository.GetSolution(id);
             
             if (solution == null)
             {
@@ -103,7 +93,7 @@ namespace alfrek.api.Controllers
         [HttpGet("preview/{id}")]
         public async Task<IActionResult> GetPreview(int id)
         {
-            var solution = await _context.Solutions.FindAsync(id);
+            var solution = await _repository.GetSolution(id);
             if (solution == null)
             {
                 return NotFound();
@@ -153,8 +143,7 @@ namespace alfrek.api.Controllers
                 
                 try
                 {
-                    _context.Solutions.Add(solution);
-                    _context.SaveChanges();
+                    await _repository.SaveSolutionAsync(solution);
                     return Ok(solution);
                 }
                 catch (Exception e)
@@ -174,7 +163,7 @@ namespace alfrek.api.Controllers
             }
             else
             {
-                var solution = await _context.Solutions.Include(a => a.Author).SingleOrDefaultAsync(x => x.Id == id);
+                var solution = await _repository.GetSolution(id);
                 if (solution != null)
                 {
                     var auth = await _authorizationService.AuthorizeAsync(User, solution, Operations.Update);
@@ -189,8 +178,7 @@ namespace alfrek.api.Controllers
                     solution.SolutionBody = solution.SolutionBody;
                     try
                     {
-                        _context.Update(solution);
-                        _context.SaveChanges();
+                        await _repository.UpdateSolutionAsync(solution);
                         return Ok(solution);
                     }
                     catch (Exception e)
@@ -213,24 +201,15 @@ namespace alfrek.api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var solution = await _context.Solutions.FindAsync(id);
-            if (solution == null)
+            try
             {
-                return NotFound();
-            }
-            else
-            {
-                try
-                {
-                    _context.Solutions.Remove(solution);
-                    _context.SaveChanges();
-                    return Ok(solution);
+                await _repository.DeleteSolutionAsync(id);
+                return Ok();
             
-                }
-                catch (Exception e)
-                {
-                    return StatusCode(500);
-                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
             }
             
         }

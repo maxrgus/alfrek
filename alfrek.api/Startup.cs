@@ -9,6 +9,8 @@ using alfrek.api.Configuration;
 using alfrek.api.Interfaces;
 using alfrek.api.Models;
 using alfrek.api.Persistence;
+using alfrek.api.Repositories;
+using alfrek.api.Repositories.Interfaces;
 using alfrek.api.Services;
 using alfrek.api.Services.Interfaces;
 using alfrek.api.Storage;
@@ -66,6 +68,8 @@ namespace alfrek.api
             services.AddSingleton<IAuthorizationHandler, SolutionAuthorizationHandler>();
 
             services.AddSingleton<ICloudStorage, AwsStorage>();
+
+            services.AddTransient<ISolutionRepository, SolutionRepository>();
 
             var secretKey = Configuration.GetSection("Token").GetValue<string>("Secret");
             
