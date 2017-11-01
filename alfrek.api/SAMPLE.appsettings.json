@@ -1,0 +1,34 @@
+{
+    "ConnectionStrings": {
+        "Default": "Server=(localdb)\\mssqllocaldb;Database=alfrek;Trusted_connection=true;" // For windows
+      //"Default": "server=localhost; user id=sa; password=YOURPASSWORD;" // Docker
+    },
+    "Token": { 
+        "Secret": "supersecret1supersecret",
+        "Issuer": "http://localhost:5000",
+        "Audience": "http://localhost:5000",
+        "Expiry": 10
+    },
+    "Logging": {
+        "IncludeScopes": false,
+        "Debug": {
+            "LogLevel": {
+                "Default": "Information"
+            }
+        },
+        "Console": {
+            "LogLevel": {
+                "Default": "Information"
+            }
+        }
+    },
+    "Administration": {
+        "Email": "admin@alfrek.com",
+        "Password": "P@ssword1"
+    },
+    "AWS": { // Your AWS Credentials
+        "Key": "",
+        "Secret": "",
+        "ProfileName": "default"
+    }
+}
