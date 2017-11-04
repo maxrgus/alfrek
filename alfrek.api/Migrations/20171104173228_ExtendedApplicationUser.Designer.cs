@@ -11,9 +11,10 @@ using System;
 namespace alfrek.api.Migrations
 {
     [DbContext(typeof(AlfrekDbContext))]
-    partial class AlfrekDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171104173228_ExtendedApplicationUser")]
+    partial class ExtendedApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,8 +27,6 @@ namespace alfrek.api.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
-
-                    b.Property<int?>("AffiliationId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -67,8 +66,6 @@ namespace alfrek.api.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AffiliationId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -330,13 +327,6 @@ namespace alfrek.api.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("alfrek.api.Models.ApplicationUsers.Affiliation", "Affiliation")
-                        .WithMany()
-                        .HasForeignKey("AffiliationId");
                 });
 
             modelBuilder.Entity("alfrek.api.Models.Comment", b =>

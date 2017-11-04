@@ -56,7 +56,14 @@ namespace alfrek.api
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
 */
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(x =>
+                {
+                    x.Password.RequiredLength = 8;
+                    x.Password.RequireUppercase = false;
+                    x.Password.RequireLowercase = false;
+                    x.Password.RequireNonAlphanumeric = false;
+                    x.Password.RequireDigit = true;
+                })
                 .AddEntityFrameworkStores<AlfrekDbContext>();
 
             services.Configure<TokenConfiguration>(Configuration.GetSection("Token"));
@@ -70,6 +77,7 @@ namespace alfrek.api
             services.AddSingleton<ICloudStorage, AwsStorage>();
 
             services.AddTransient<ISolutionRepository, SolutionRepository>();
+            services.AddTransient<IResourceRepository, ResourceRepository>();
 
             var secretKey = Configuration.GetSection("Token").GetValue<string>("Secret");
             
@@ -92,6 +100,8 @@ namespace alfrek.api
                     options.Validate();
                 });
 
+            services.AddCors();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Alfrek API", Version = "v1"});
@@ -125,11 +135,25 @@ namespace alfrek.api
             loggerFactory.AddDebug();
             
             app.UseAuthentication();
+
+
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:8080")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                );
+
+            using (var context = serviceProvider.GetService<AlfrekDbContext>())
+            {
+                if (context.AllMigrationsApplied())
+                {
+                    context.EnsureSeeded();
+                }
+            }
             
-           
             // Add application roles
             //TODO: Not when doing Migraitons
-            CreateRoles(serviceProvider).Wait();
+            //CreateRoles(serviceProvider).Wait();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

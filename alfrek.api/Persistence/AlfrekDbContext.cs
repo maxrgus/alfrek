@@ -1,4 +1,5 @@
 ﻿using alfrek.api.Models;
+using alfrek.api.Models.ApplicationUsers;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,5 +13,6 @@ namespace alfrek.api.Persistence
             
         }
         public DbSet<Solution> Solutions { get; set; }
+        public DbSet<Affiliation> Affiliations { get; set; }
     }
 }

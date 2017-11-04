@@ -1,0 +1,142 @@
+[
+  {
+    "name": "Blekinge Institute of Technology",
+    "thumbnail": "blekingetekniskaholgskola.png"
+  },
+  {
+    "name": "Chalmers University of Technology",
+    "thumbnail": "chalmers.png"
+  },
+  {
+    "name": "Dalarna University",
+    "thumbnail": "hogskolandalarna.png"
+  },
+  {
+    "name": "Ersta Sköndal University College",
+    "thumbnail": "erstaskondalhogskola.jpg"
+  },
+  {
+    "name": "GIH – the Swedish School of Sport and Health Sciences",
+    "thumbnail": "gih.gif"
+  },
+  {
+    "name": "Halmstad University",
+    "thumbnail": "hogskolanhalmstad.png"
+  },
+  {
+    "name": "Jönköping University",
+    "thumbnail": "hogskolanjonkoping.png"
+  },
+  {
+    "name": "KMH – Royal College of Music in Stockholm",
+    "thumbnail": "kungligamusikhogskolan.jpg"
+  },
+  {
+    "name": "KTH Royal Institute of Technology",
+    "thumbnail": "kungligatekniskahogskolan.jpeg"
+  },
+  {
+    "name": "Karlstad University",
+    "thumbnail": "karlstaduniversitetet.jpg"
+  },
+  {
+    "name": "Karolinska Institutet",
+    "thumbnail": "karolinskainstitutet.png"
+  },
+  {
+    "name": "Konstfack",
+    "thumbnail": "konstfack.png"
+  },
+  {
+    "name": "Kristianstad University",
+    "thumbnail": "hogskolankristianstad.jpeg"
+  },
+  {
+    "name": "Linköping University",
+    "thumbnail": "linkopingsuniversitetet.png"
+  },
+  {
+    "name": "Linnaeus University",
+    "thumbnail": "linne.png"
+  },
+  {
+    "name": "Luleå University of Technology",
+    "thumbnail": "luleatekniskauniversitet.jpeg"
+  },
+  {
+    "name": "Malmö University",
+    "thumbnail": "malmohogskola.jpeg"
+  },
+  {
+    "name": "Mid Sweden University",
+    "thumbnail": "mittuniversitetet.jpeg"
+  },
+  {
+    "name": "Mälardalen University",
+    "thumbnail": "malardalenshogskola.png"
+  },
+  {
+    "name": "Royal Institute of Art",
+    "thumbnail": "kungligakonsthogskolan.jpg"
+  },
+  {
+    "name": "SLU – Swedish University of Agricultural Sciences",
+    "thumbnail": "sverigeslantbruksuniversitet.png"
+  },
+  {
+    "name": "Sophiahemmet University College",
+    "thumbnail": "sophiahemmethogskola.png"
+  },
+  {
+    "name": "Stockholm School of Economics",
+    "thumbnail": "stockholmhandelshogkola.png"
+  },
+  {
+    "name": "Stockholm School of Theology",
+    "thumbnail": "teologiskahogskolan.png"
+  },
+  {
+    "name": "Stockholm University",
+    "thumbnail": "stockholmsuniversitet.jpeg"
+  },
+  {
+    "name": "Swedish National Defence College",
+    "thumbnail": "forsvarshogskolan.jpg"
+  },
+  {
+    "name": "Södertörn University",
+    "thumbnail": "sodertornshogskola.png"
+  },
+  {
+    "name": "Umeå University",
+    "thumbnail": "umeauniversitet.jpeg"
+  },
+  {
+    "name": "University West",
+    "thumbnail": "hogskolanvast.jpeg"
+  },
+  {
+    "name": "University of Borås",
+    "thumbnail": "hogskolanboras.jpeg"
+  },
+  {
+    "name": "University of Gothenburg",
+    "thumbnail": "goteborgsuniversitet.png"
+  },
+  {
+    "name": "University of Gävle",
+    "thumbnail": "hogskolanigavle.jpeg"
+  },
+  {
+    "name": "University of Skövde",
+    "thumbnail": "hogskolanskovde.jpeg"
+  },
+  {
+    "name": "Uppsala University",
+    "thumbnail": "uppsalauniversitet.jpeg"
+  },
+  {
+    "name": "Örebro University",
+    "thumbnail": "orebrouniversitet.jpeg"
+  }
+]
