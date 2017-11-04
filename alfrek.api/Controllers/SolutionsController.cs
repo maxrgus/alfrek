@@ -28,31 +28,25 @@ namespace alfrek.api.Controllers
         private readonly ISolutionRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAuthorizationService _authorizationService;
-       // private readonly ICloudStorage _cloudStorage;
+        private readonly ICloudStorage _cloudStorage;
 
 
         public SolutionsController(UserManager<ApplicationUser> userManager, 
-            IAuthorizationService authorizationService, ISolutionRepository repository)
+            IAuthorizationService authorizationService, ISolutionRepository repository, ICloudStorage cloudStorage)
         {
             _userManager = userManager;
             _authorizationService = authorizationService;
-           // _cloudStorage = cloudStorage;
             _repository = repository;
+            _cloudStorage = cloudStorage;
         }
         
-        [Authorize(Roles = "Researcher,Member,Admin")]
+        [AllowAnonymous]
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
             var solutions = await _repository.GetSolutions();
             // Map returned solutions to SolutionListResource
-            var result = solutions.Select(s => new SolutionListResource()
-            {
-                Id = s.Id,
-                Title = s.Title,
-                ByLine = s.ByLine
-            }).ToList();
-            
+            var result = solutions.Select(s => s.ToListSolution()).ToList();    
             return Ok(result);
 
         }
@@ -62,35 +56,13 @@ namespace alfrek.api.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var solution = await _repository.GetSolution(id);
-            
             if (solution == null)
             {
                 return NotFound();
             }
-            else
-            {
-                var result = new SolutionResource(
-                    solution.Id,
-                    solution.Title, 
-                    solution.ByLine, 
-                    solution.Rating, 
-                    solution.ProblemBody, 
-                    solution.SolutionBody,
-                    solution.Comments
-                    );
-
-                result.Author.Email = solution.Author.Email;
-                result.Author.Name = solution.Author.UserName;
-
-                result.CoAuthors = solution.CoAuthors.Select(a => new AuthorResource()
-                {
-                    Email = a.Email,
-                    Name = a.Name
-                }).ToList();
-                
-
-                return Ok(result);
-            }
+            var result = solution.ToSingleSolution();
+            return Ok(result);
+            
         }
         [AllowAnonymous]
         [HttpGet("preview/{id}")]
@@ -101,11 +73,9 @@ namespace alfrek.api.Controllers
             {
                 return NotFound();
             }
-            else
-            {
-                var result = solution.ToPreviewSolution();
-                return Ok(result);
-            }
+            var result = solution.ToPreviewSolution();
+            return Ok(result);
+
         }
         [Authorize(Roles = "Researcher")]
         [HttpPost("")]
@@ -116,38 +86,23 @@ namespace alfrek.api.Controllers
             {
                 return BadRequest(ModelState.Values);
             }
-            else
+            var author = await _userManager.FindByEmailAsync(s.Username);
+            if (author == null)
             {
-                var solution = new Solution();
-                solution.Title = s.Title;
-                solution.ByLine = s.ByLine;
-                solution.ProblemBody = s.ProblemBody;
-                solution.SolutionBody = s.SolutionBody;
-                solution.Views = 0;
-
-                var author = await _userManager.FindByEmailAsync(s.Username);
-                if (author == null)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                solution.Author = author;
-                
-                foreach (var coAuthor in s.CoAuthors)
-                {
-                    solution.CoAuthors.Add(new Author(coAuthor.Email, coAuthor.Name));
-                }
-                
-                try
-                {
-                    await _repository.SaveSolutionAsync(solution);
-                    return Ok(solution);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    return StatusCode(500);
-                }
+                return BadRequest(ModelState);
+            }
+            
+            var solution = s.FromSaveSolutionResource();
+            solution.Author = author;            
+            try
+            {
+                await _repository.SaveSolutionAsync(solution);
+                return Ok(solution);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500);
             }
         }
         [Authorize(Roles = "Researcher")]
@@ -157,36 +112,28 @@ namespace alfrek.api.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-            else
+            }         
+            var solution = await _repository.GetSolution(id);
+            if (solution == null)
             {
-                var solution = await _repository.GetSolution(id);
-                if (solution != null)
-                {
-                    var auth = await _authorizationService.AuthorizeAsync(User, solution, Operations.Update);
-                    if (!auth.Succeeded)
-                    {
-                        return Challenge();
-                    }
-                    
-                    solution.Title = s.Title;
-                    solution.ByLine = s.ByLine;
-                    solution.ProblemBody = s.ProblemBody;
-                    solution.SolutionBody = solution.SolutionBody;
-                    try
-                    {
-                        await _repository.UpdateSolutionAsync(solution);
-                        return Ok(solution);
-                    }
-                    catch (Exception e)
-                    {
-                        return StatusCode(500);
-                    }
-                }
-                else
-                {
-                    return NotFound("No solution found");
-                }
+                return NotFound("No solution found");
+
+            }
+            //TODO: Refactor to Policy
+            var auth = await _authorizationService.AuthorizeAsync(User, solution, Operations.Update);
+            if (!auth.Succeeded)
+            {
+                return Challenge();
+            }
+            solution.MapFromEditSolutionResource(s); 
+            try
+            {
+                await _repository.UpdateSolutionAsync(solution);
+                return Ok(solution);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
             }
         }
         
@@ -202,7 +149,6 @@ namespace alfrek.api.Controllers
             {
                 await _repository.DeleteSolutionAsync(id);
                 return Ok();
-            
             }
             catch (Exception e)
             {
@@ -215,7 +161,7 @@ namespace alfrek.api.Controllers
         [HttpGet("buckets")]
         public IActionResult Buckets()
         {
-            //_cloudStorage.ListStorage();
+            _cloudStorage.ListStorage();
             return Ok();
         }
     }

@@ -20,10 +20,6 @@ namespace alfrek.api.Controllers.Resources.View
         
         public List<Comment> Comments { get; set; }
 
-        public SolutionResource()
-        {
-            
-        }
         public SolutionResource(int id, string title, string byLine, double? rating, string problemBody, 
             string solutionBody, List<Comment> comments)
         {

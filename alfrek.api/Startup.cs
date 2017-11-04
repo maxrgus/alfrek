@@ -67,7 +67,7 @@ namespace alfrek.api
 
             services.AddSingleton<IAuthorizationHandler, SolutionAuthorizationHandler>();
 
-           // services.AddSingleton<ICloudStorage, AwsStorage>();
+            services.AddSingleton<ICloudStorage, AwsStorage>();
 
             services.AddTransient<ISolutionRepository, SolutionRepository>();
 
