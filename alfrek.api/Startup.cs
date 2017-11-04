@@ -67,7 +67,7 @@ namespace alfrek.api
 
             services.AddSingleton<IAuthorizationHandler, SolutionAuthorizationHandler>();
 
-            services.AddSingleton<ICloudStorage, AwsStorage>();
+           // services.AddSingleton<ICloudStorage, AwsStorage>();
 
             services.AddTransient<ISolutionRepository, SolutionRepository>();
 
@@ -81,12 +81,12 @@ namespace alfrek.api
                 })
                 .AddJwtBearer(options =>
                 {
-                    options.RequireHttpsMetadata = false;
+                    options.RequireHttpsMetadata = false; //TODO: Refactor to appsettings
                     options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         ValidIssuer = Configuration.GetSection("Token").GetValue<string>("Issuer"),
-                        ValidAudience = Configuration.GetSection("Token").GetValue<string>("Issuer"),
+                        ValidAudience = Configuration.GetSection("Token").GetValue<string>("Audience"),
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
                     };
                     options.Validate();
@@ -106,7 +106,7 @@ namespace alfrek.api
         {
             if (env.IsDevelopment())
             {
-                var netSDKFile = new NetSDKCredentialsFile();
+               /* var netSDKFile = new NetSDKCredentialsFile();
                 CredentialProfile basicProfile;
                 
                 if (netSDKFile.TryGetProfile(Configuration.GetSection("AWS").GetValue<string>("ProfileName"), out basicProfile))
@@ -117,7 +117,7 @@ namespace alfrek.api
                     
                     netSDKFile.RegisterProfile((basicProfile));
                     Console.WriteLine("SUCCESS: CREATED PROFILE");
-                }
+                }*/
                 app.UseDeveloperExceptionPage();
             }
            

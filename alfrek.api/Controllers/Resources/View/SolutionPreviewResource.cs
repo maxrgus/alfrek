@@ -9,10 +9,6 @@
 
         public string ProblemBody { get; set; }
 
-        public SolutionPreviewResource()
-        {
-            
-        }
         public SolutionPreviewResource(int id, string title, string byLine, double? rating, string problemBody)
         {
             Id = id;

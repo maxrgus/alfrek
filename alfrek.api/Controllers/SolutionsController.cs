@@ -6,6 +6,7 @@ using alfrek.api.Authorization;
 using alfrek.api.Controllers.Resources.Input;
 using alfrek.api.Controllers.Resources.View;
 using alfrek.api.Controllers.Resources.View.Solutions;
+using alfrek.api.Mappers;
 using alfrek.api.Models;
 using alfrek.api.Models.Solutions;
 using alfrek.api.Persistence;
@@ -19,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace alfrek.api.Controllers
 {
+    //TODO: Refactor all mapping to external mapper
     [Authorize]
     [Route("[controller]")]
     public class SolutionsController : Controller
@@ -26,15 +28,15 @@ namespace alfrek.api.Controllers
         private readonly ISolutionRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAuthorizationService _authorizationService;
-        private readonly ICloudStorage _cloudStorage;
+       // private readonly ICloudStorage _cloudStorage;
 
 
         public SolutionsController(UserManager<ApplicationUser> userManager, 
-            IAuthorizationService authorizationService, ICloudStorage cloudStorage, ISolutionRepository repository)
+            IAuthorizationService authorizationService, ISolutionRepository repository)
         {
             _userManager = userManager;
             _authorizationService = authorizationService;
-            _cloudStorage = cloudStorage;
+           // _cloudStorage = cloudStorage;
             _repository = repository;
         }
         
@@ -50,7 +52,7 @@ namespace alfrek.api.Controllers
                 Title = s.Title,
                 ByLine = s.ByLine
             }).ToList();
-
+            
             return Ok(result);
 
         }
@@ -101,13 +103,7 @@ namespace alfrek.api.Controllers
             }
             else
             {
-                var result = new SolutionPreviewResource(
-                    solution.Id,
-                    solution.Title, 
-                    solution.ByLine, 
-                    solution.Rating, 
-                    solution.ProblemBody);
-
+                var result = solution.ToPreviewSolution();
                 return Ok(result);
             }
         }
@@ -219,7 +215,7 @@ namespace alfrek.api.Controllers
         [HttpGet("buckets")]
         public IActionResult Buckets()
         {
-            _cloudStorage.ListStorage();
+            //_cloudStorage.ListStorage();
             return Ok();
         }
     }
