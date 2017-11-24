@@ -58,8 +58,12 @@ namespace alfrek.api.Controllers
             }
             var user = new ApplicationUser
             {
+                FirstName = resource.FirstName,
+                LastName = resource.LastName,
                 UserName = resource.Email,
                 Email = resource.Email,
+                Organization = resource.Organization,
+                JobTitle = resource.Role
             };
             
 
