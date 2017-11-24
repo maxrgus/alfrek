@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using alfrek.api.Controllers.Resources.Input;
 using alfrek.api.Models;
 using alfrek.api.Models.ApplicationUsers;
+using alfrek.api.Models.Solutions;
 using alfrek.api.Persistence;
 using alfrek.api.Repositories.Interfaces;
 using alfrek.api.Services;
@@ -41,9 +42,11 @@ namespace alfrek.api.Controllers
 
         [Authorize]
         [HttpGet("user")]
-        public IActionResult GetUser()
+        public async Task<IActionResult> GetUser()
         {
-            return Ok(new { Email = User.FindFirstValue(ClaimTypes.NameIdentifier) });
+            var userEmail = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            return Ok(user);
         }
 
         [HttpPost("register")]

@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using alfrek.api.Migrations.UserDb;
 using alfrek.api.Models.ApplicationUsers;
+using alfrek.api.Models.Solutions;
 using alfrek.api.Persistence;
 using alfrek.api.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace alfrek.api.Repositories
