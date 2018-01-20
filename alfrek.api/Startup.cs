@@ -130,7 +130,8 @@ namespace alfrek.api
                 }*/
                 app.UseDeveloperExceptionPage();
             }
-           
+            CreateRoles(serviceProvider).Wait();
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             
@@ -153,7 +154,6 @@ namespace alfrek.api
             
             // Add application roles
             //TODO: Not when doing Migraitons
-            //CreateRoles(serviceProvider).Wait();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

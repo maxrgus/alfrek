@@ -11,7 +11,8 @@ namespace alfrek.api.Models
         //Researcher specific
         public string ResearchField { get; set; }
         public Affiliation Affiliation { get; set; }
-        
+        public string Slug { get; set; }
+
         //Member specific
         public string Organization { get; set; }
         public string JobTitle { get; set; }
