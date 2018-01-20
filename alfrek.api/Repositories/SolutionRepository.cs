@@ -32,6 +32,13 @@ namespace alfrek.api.Repositories
             return await _context.Solutions.ToListAsync();
         }
 
+        public async Task<List<Solution>> Search(string query)
+        {
+            return await _context.Solutions.Where(s =>
+                s.Title.Contains(query) ||
+                s.ByLine.Contains(query)).ToListAsync();
+        }
+
         public async Task<List<Solution>> GetSolutionsByAuthor(Author author)
         {
             return await _context.Solutions.Where(a => a.Author.Email == author.Email).ToListAsync();

@@ -77,6 +77,17 @@ namespace alfrek.api.Controllers
             return Ok(result);
 
         }
+        [AllowAnonymous]
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(string query)
+        {
+            var results = await _repository.Search(query);
+            if (results == null)
+            {
+                results = new List<Solution>();
+            }
+            return Ok(results);
+        }
         [Authorize(Roles = "Researcher")]
         [HttpPost("")]
         public async Task<IActionResult> Post([FromBody] SaveSolutionResource s)
