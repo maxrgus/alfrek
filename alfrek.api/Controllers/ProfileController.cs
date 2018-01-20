@@ -22,10 +22,11 @@ namespace alfrek.api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{email}")]
-        public async Task<IActionResult> Get(string email)
+        [HttpGet("{slug}")]
+        public async Task<IActionResult> Get(string slug)
         {
-            var result =  await _userManager.FindByEmailAsync(email);
+            //TODO: Create method that finds user by slug.
+            var result =  await _userManager.FindByEmailAsync(slug);
             if (result == null)
             {
                 return NotFound();
