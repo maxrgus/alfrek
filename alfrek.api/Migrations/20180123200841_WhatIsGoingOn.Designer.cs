@@ -11,9 +11,10 @@ using System;
 namespace alfrek.api.Migrations
 {
     [DbContext(typeof(AlfrekDbContext))]
-    partial class AlfrekDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180123200841_WhatIsGoingOn")]
+    partial class WhatIsGoingOn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

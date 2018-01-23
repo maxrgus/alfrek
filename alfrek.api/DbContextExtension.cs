@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using alfrek.api.Models.ApplicationUsers;
+using alfrek.api.Models.Solutions;
 using alfrek.api.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -32,6 +33,12 @@ namespace alfrek.api
                 context.AddRange(affiliations);
                 context.SaveChanges();
             }
+            //if (!context.PurposedRoles.Any())
+            //{
+            //    var purposedroles = JsonConvert.DeserializeObject<List<PurposedRole>>(File.ReadAllText("Seeds" + Path.DirectorySeparatorChar + "purposedroles.json"));
+            //    context.AddRange(purposedroles);
+            //    context.SaveChanges();
+            //}
         }
     }
 }

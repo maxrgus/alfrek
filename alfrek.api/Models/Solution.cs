@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using alfrek.api.Models.Joins;
 using alfrek.api.Models.Solutions;
 
 namespace alfrek.api.Models
@@ -24,7 +26,12 @@ namespace alfrek.api.Models
         
         public List<Author> CoAuthors { get; set; }
         public List<MetaTag> Tags { get; set; }
+
+        public List<SolutionRole> SolutionRoles { get; set; }
+
         public FeaturedImage FeaturedImage { get; set; }
+
+        public string Slug { get; set; }
 
         [Required]
         public string ProblemBody { get; set; }
@@ -49,6 +56,7 @@ namespace alfrek.api.Models
             SolutionBody = solutionBody;
             Comments = new List<Comment>();
             CoAuthors = new List<Author>();
+            SolutionRoles = new List<SolutionRole>();
         }
 
         public Solution(int id, string title, string byLine, double? rating, ApplicationUser author, 

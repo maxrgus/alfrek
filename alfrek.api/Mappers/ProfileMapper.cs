@@ -13,7 +13,9 @@ namespace alfrek.api.Mappers
         {
             return new PublicProfileResource(
                 applicationUser.FirstName,
-                applicationUser.LastName
+                applicationUser.LastName,
+                applicationUser.ProfilePictureUrl,
+                applicationUser.Affiliation
             );
         }
     }

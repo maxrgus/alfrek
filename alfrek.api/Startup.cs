@@ -130,7 +130,7 @@ namespace alfrek.api
                 }*/
                 app.UseDeveloperExceptionPage();
             }
-            CreateRoles(serviceProvider).Wait();
+           // CreateRoles(serviceProvider).Wait();
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -139,7 +139,7 @@ namespace alfrek.api
 
 
             app.UseCors(builder =>
-                builder.WithOrigins("http://localhost:8080")
+                builder.WithOrigins("http://localhost:8080", "http://localhost:3000")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 );

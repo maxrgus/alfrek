@@ -20,5 +20,11 @@ namespace alfrek.api.Controllers
             var result = await _repository.GetAffiliationsAsync();
             return Ok(result);
         }
+        [HttpGet("purposedroles")]
+        public async Task<IActionResult> PurposedRoles()
+        {
+            var result = await _repository.GetPurposedRolesAsync();
+            return Ok(result);
+        }
     }
 }

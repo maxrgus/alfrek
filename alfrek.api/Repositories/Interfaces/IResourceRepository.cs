@@ -9,5 +9,7 @@ namespace alfrek.api.Repositories.Interfaces
     {
         Task<Affiliation> GetAffiliationAsync(int id);
         Task<List<Affiliation>> GetAffiliationsAsync();
+        Task<List<PurposedRole>> GetPurposedRolesAsync();
+        Task<List<PurposedRole>> GetPurposedRolesAsync(int[] ids);
     }
 }

@@ -11,9 +11,10 @@ using System;
 namespace alfrek.api.Migrations
 {
     [DbContext(typeof(AlfrekDbContext))]
-    partial class AlfrekDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180123144221_AddManytoManySolutionPurposedRole")]
+    partial class AddManytoManySolutionPurposedRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,8 +205,6 @@ namespace alfrek.api.Migrations
                     b.Property<string>("LastName");
 
                     b.Property<string>("Name");
-
-                    b.Property<string>("ProfilePictureUrl");
 
                     b.Property<int>("SolutionId");
 

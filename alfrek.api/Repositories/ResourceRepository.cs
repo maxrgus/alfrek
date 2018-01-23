@@ -29,5 +29,15 @@ namespace alfrek.api.Repositories
         {
             return await _context.Affiliations.ToListAsync();
         }
+        
+        public async Task<List<PurposedRole>> GetPurposedRolesAsync()
+        {
+            return await _context.PurposedRoles.ToListAsync();
+        }
+
+        public async Task<List<PurposedRole>> GetPurposedRolesAsync(int[] ids)
+        {
+            return await _context.PurposedRoles.Where(r => ids.Contains(r.Id)).ToListAsync();
+        }
     }
 }

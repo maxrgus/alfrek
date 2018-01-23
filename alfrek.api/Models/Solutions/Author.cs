@@ -13,6 +13,7 @@ namespace alfrek.api.Models.Solutions
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
+        public string ProfilePictureUrl { get; set; }
 
         public Affiliation Affiliation { get; set; }
 
@@ -32,6 +33,13 @@ namespace alfrek.api.Models.Solutions
             Email = email;
             Name = name;
             User = user;
+        }
+
+        public Author(string firstName, string lastName, Affiliation affiliation)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Affiliation = affiliation;
         }
 
         public Author(int id, string firstName, string lastName, string email, string name, Affiliation affiliation, int solutionId)

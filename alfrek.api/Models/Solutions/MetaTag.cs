@@ -17,5 +17,10 @@ namespace alfrek.api.Models.Solutions
             Key = key;
             Value = value;
         }
+
+        public MetaTag()
+        {
+
+        }
     }
 }

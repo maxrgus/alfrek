@@ -26,17 +26,19 @@ namespace alfrek.api.Controllers
     public class SolutionsController : Controller
     {
         private readonly ISolutionRepository _repository;
+        private readonly IResourceRepository _resourceRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAuthorizationService _authorizationService;
         private readonly ICloudStorage _cloudStorage;
 
 
         public SolutionsController(UserManager<ApplicationUser> userManager, 
-            IAuthorizationService authorizationService, ISolutionRepository repository, ICloudStorage cloudStorage)
+            IAuthorizationService authorizationService, ISolutionRepository repository, IResourceRepository resourceRepository, ICloudStorage cloudStorage)
         {
             _userManager = userManager;
             _authorizationService = authorizationService;
             _repository = repository;
+            _resourceRepository = resourceRepository;
             _cloudStorage = cloudStorage;
         }
         
@@ -52,7 +54,7 @@ namespace alfrek.api.Controllers
         }
         
         [Authorize(Roles = "Researcher,Member")]
-        [HttpGet("{id}")]
+        [HttpGet("Edit/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var solution = await _repository.GetSolution(id);
@@ -63,6 +65,18 @@ namespace alfrek.api.Controllers
             var result = solution.ToSingleSolution();
             return Ok(result);
             
+        }
+        [AllowAnonymous]
+        [HttpGet("{slug}")]
+        public async Task<IActionResult> GetWithSlug(string slug)
+        {
+            var solution = await _repository.GetSolutionBySlug(slug);
+            if (solution == null)
+            {
+                return NotFound();
+            }
+            var result = solution.ToSingleSolution();
+            return Ok(result);
         }
         [AllowAnonymous]
         [HttpGet("preview/{id}")]
@@ -102,13 +116,14 @@ namespace alfrek.api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+            var rolesFromDb = await _resourceRepository.GetPurposedRolesAsync(s.Roles.Select(r => r.Id).ToArray());
+            s.Roles = rolesFromDb;
             var solution = s.FromSaveSolutionResource();
             solution.Author = author;            
             try
             {
                 await _repository.SaveSolutionAsync(solution);
-                return Ok(solution);
+                return Ok();
             }
             catch (Exception e)
             {

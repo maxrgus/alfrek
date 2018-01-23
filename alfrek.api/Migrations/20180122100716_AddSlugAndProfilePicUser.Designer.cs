@@ -11,9 +11,10 @@ using System;
 namespace alfrek.api.Migrations
 {
     [DbContext(typeof(AlfrekDbContext))]
-    partial class AlfrekDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180122100716_AddSlugAndProfilePicUser")]
+    partial class AddSlugAndProfilePicUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,8 +43,6 @@ namespace alfrek.api.Migrations
                     b.Property<string>("JobTitle");
 
                     b.Property<string>("LastName");
-
-                    b.Property<string>("LinkedInId");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -124,19 +123,6 @@ namespace alfrek.api.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("alfrek.api.Models.Joins.SolutionRole", b =>
-                {
-                    b.Property<int>("SolutionId");
-
-                    b.Property<int>("PurposedRoleId");
-
-                    b.HasKey("SolutionId", "PurposedRoleId");
-
-                    b.HasIndex("PurposedRoleId");
-
-                    b.ToTable("SolutionRole");
-                });
-
             modelBuilder.Entity("alfrek.api.Models.Solution", b =>
                 {
                     b.Property<int>("Id")
@@ -153,8 +139,6 @@ namespace alfrek.api.Migrations
                         .IsRequired();
 
                     b.Property<double?>("Rating");
-
-                    b.Property<string>("Slug");
 
                     b.Property<string>("SolutionBody")
                         .IsRequired();
@@ -204,8 +188,6 @@ namespace alfrek.api.Migrations
                     b.Property<string>("LastName");
 
                     b.Property<string>("Name");
-
-                    b.Property<string>("ProfilePictureUrl");
 
                     b.Property<int>("SolutionId");
 
@@ -257,19 +239,6 @@ namespace alfrek.api.Migrations
                     b.HasIndex("SolutionId");
 
                     b.ToTable("MetaTags");
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.Solutions.PurposedRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PurposedRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -391,19 +360,6 @@ namespace alfrek.api.Migrations
                 {
                     b.HasOne("alfrek.api.Models.Solution")
                         .WithMany("Comments")
-                        .HasForeignKey("SolutionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("alfrek.api.Models.Joins.SolutionRole", b =>
-                {
-                    b.HasOne("alfrek.api.Models.Solutions.PurposedRole", "PurposedRole")
-                        .WithMany("SolutionRoles")
-                        .HasForeignKey("PurposedRoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("alfrek.api.Models.Solution", "Solution")
-                        .WithMany("SolutionRoles")
                         .HasForeignKey("SolutionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

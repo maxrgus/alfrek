@@ -8,9 +8,10 @@ namespace alfrek.api.Repositories.Interfaces
     public interface ISolutionRepository
     {
         Task<Solution> GetSolution(int id);
+        Task<Solution> GetSolutionBySlug(string slug);
         
         Task<List<Solution>> GetSolutions();
-        Task<List<Solution>> GetSolutionsByAuthor(Author author);
+        Task<List<Solution>> GetSolutionsByAuthor(ApplicationUser author);
         Task<List<Solution>> Search(string query);
       
         Task SaveSolutionAsync(Solution solution);
