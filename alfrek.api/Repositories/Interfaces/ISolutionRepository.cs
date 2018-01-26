@@ -11,6 +11,7 @@ namespace alfrek.api.Repositories.Interfaces
         Task<Solution> GetSolutionBySlug(string slug);
         
         Task<List<Solution>> GetSolutions();
+        Task<List<Solution>> GetLatestSolutions();
         Task<List<Solution>> GetSolutionsByAuthor(ApplicationUser author);
         Task<List<Solution>> Search(string query);
       

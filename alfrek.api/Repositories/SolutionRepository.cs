@@ -50,6 +50,17 @@ namespace alfrek.api.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<Solution>> GetLatestSolutions()
+        {
+            return await _context.Solutions
+                .Include(s => s.Author)
+                    .ThenInclude(a => a.Affiliation)
+                .Include(s => s.SolutionRoles)
+                    .ThenInclude(sr => sr.PurposedRole)
+                .OrderByDescending(s => s.CreatedAt)
+                .ToListAsync();
+        }
+
         public async Task<List<Solution>> Search(string query)
         {
             return await _context.Solutions.Where(s =>

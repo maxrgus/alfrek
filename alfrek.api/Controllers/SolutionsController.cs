@@ -52,6 +52,14 @@ namespace alfrek.api.Controllers
             return Ok(result);
 
         }
+        [AllowAnonymous]
+        [HttpGet("latest")]
+        public async Task<IActionResult> Latest()
+        {
+            var solutions = await _repository.GetLatestSolutions();
+            var result = solutions.Select(s => s.ToListSolution()).ToList();
+            return Ok(result);
+        }
         
         [Authorize(Roles = "Researcher,Member")]
         [HttpGet("Edit/{id}")]

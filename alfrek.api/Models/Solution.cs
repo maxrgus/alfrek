@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -20,7 +21,8 @@ namespace alfrek.api.Models
         public string ByLine { get; set; }
         public double? Rating { get; set; }
         public int Views { get; set; }
-        
+        public DateTime CreatedAt { get; set; }
+
         [Required]
         public ApplicationUser Author { get; set; }
         
